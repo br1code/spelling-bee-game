@@ -1,7 +1,20 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
+import Header from './components/Header';
+import Honeycomb from './components/Honeycomb';
+
+interface ApiData {
+  displayDate: string;
+  editor: string;
+  answers: string[];
+  centerLetter: string;
+  outerLetters: string[];
+  validLetters: string[];
+}
 
 function App() {
+  const [data, setData] = useState<ApiData>();
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -9,8 +22,8 @@ function App() {
           headers: { 'Content-Type': 'application/json' },
         });
 
-        const data = await response.json();
-        console.log(data);
+        const json = await response.json();
+        setData(json.data.today);
       } catch (error) {
         console.error('Failed to fetch data' + error);
       }
@@ -21,7 +34,24 @@ function App() {
 
   return (
     <>
-      <h1>My app</h1>
+      {data ? (
+        <>
+          <Header date={data.displayDate} editor={data.editor} />
+          <section className="container">
+            <div className="inputs">
+              <div className="center">
+                <Honeycomb
+                  centerLetter={data.centerLetter}
+                  outerLetters={data.outerLetters}
+                  validLetters={data.validLetters}
+                />
+              </div>
+            </div>
+          </section>
+        </>
+      ) : (
+        <p>Loading ...</p>
+      )}
     </>
   );
 }
