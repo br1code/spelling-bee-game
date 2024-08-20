@@ -30,6 +30,19 @@ body {
   margin: 25px auto;
 }
 
+.guess {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+}
+
+.guess-letters {
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 2rem;
+}
+
 .honeycomb {
   position: relative;
   height: 275px;

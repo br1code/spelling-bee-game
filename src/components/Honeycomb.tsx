@@ -5,12 +5,18 @@ interface HoneycombProps {
   centerLetter: string;
   outerLetters: string[];
   validLetters: string[];
+  addLetter: (letter: string) => void;
+  removeLetter: () => void;
+  checkGuess: () => void;
 }
 
 const Honeycomb: FC<HoneycombProps> = ({
   centerLetter,
   outerLetters,
   validLetters,
+  addLetter,
+  removeLetter,
+  checkGuess,
 }) => {
   const [randomOuterLetters, setRandomOuterLetters] =
     useState<string[]>(outerLetters);
@@ -33,18 +39,25 @@ const Honeycomb: FC<HoneycombProps> = ({
   return (
     <>
       <article className="honeycomb">
-        <Letter letter={centerLetter} isCenter={true} />
+        <Letter letter={centerLetter} isCenter={true} addLetter={addLetter} />
         {randomOuterLetters.map((letter, index) => (
           <Letter
             letter={letter}
             isCenter={false}
             key={generateRandomKey(letter, index)}
+            addLetter={addLetter}
           />
         ))}
       </article>
       <section className="buttons">
+        <button className="button" onClick={removeLetter}>
+          Delete
+        </button>
         <button className="button" onClick={onShuffleClick}>
           Shuffle
+        </button>
+        <button className="button" onClick={checkGuess}>
+          Guess
         </button>
       </section>
     </>

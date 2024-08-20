@@ -3,13 +3,15 @@ import { FC } from 'react';
 interface LetterProps {
   letter: string;
   isCenter: boolean;
+  addLetter: (letter: string) => void;
 }
 
-const Letter: FC<LetterProps> = ({ letter, isCenter }) => {
+const Letter: FC<LetterProps> = ({ letter, isCenter, addLetter }) => {
   return (
     <svg
       className={'cell' + (isCenter ? ' center-letter' : ' outer-letter')}
       viewBox="0 0 120 103.92304845413263"
+      onClick={() => addLetter(letter)}
     >
       <polygon
         className="cell-fill"
