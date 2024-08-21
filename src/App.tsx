@@ -16,6 +16,7 @@ interface ApiData {
 }
 
 const GUESS_MIN_LENGTH = 4;
+const CORRECT_GUESSES_LOCAL_STORAGE_KEY = 'correctGuesses';
 
 function App() {
   const [data, setData] = useState<ApiData>();
@@ -37,6 +38,22 @@ function App() {
     }
 
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    const storedCorrectGuessesValue = localStorage.getItem(
+      CORRECT_GUESSES_LOCAL_STORAGE_KEY
+    );
+
+    if (storedCorrectGuessesValue) {
+      const storedCorrectGuesses = JSON.parse(
+        storedCorrectGuessesValue
+      ) as string[];
+
+      if (storedCorrectGuesses?.length > 0) {
+        setCorrectGuesses(storedCorrectGuesses);
+      }
+    }
   }, []);
 
   const addLetter = (letter: string) => {
@@ -76,7 +93,11 @@ function App() {
   };
 
   const addCorrectGuess = () => {
-    setCorrectGuesses([...correctGuesses, guess]);
+    const guesses = [...correctGuesses, guess];
+    setCorrectGuesses(guesses);
+
+    const guessesValue = JSON.stringify(guesses);
+    localStorage.setItem(CORRECT_GUESSES_LOCAL_STORAGE_KEY, guessesValue);
   };
 
   return (
