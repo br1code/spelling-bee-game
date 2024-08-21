@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Honeycomb from './components/Honeycomb';
 import Guess from './components/Guess';
 import CorrectGuesses from './components/CorrectGuesses';
+import Score from './components/Score';
 
 interface ApiData {
   displayDate: string;
@@ -66,6 +67,7 @@ function App() {
       {data ? (
         <>
           <Header date={data.displayDate} editor={data.editor} />
+          <Score correctGuesses={correctGuesses} />
           <CorrectGuesses correctGuesses={correctGuesses} />
           <section className="container">
             <div className="inputs">
