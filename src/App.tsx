@@ -3,6 +3,7 @@ import './App.css';
 import Header from './components/Header';
 import Honeycomb from './components/Honeycomb';
 import Guess from './components/Guess';
+import CorrectGuesses from './components/CorrectGuesses';
 
 interface ApiData {
   displayDate: string;
@@ -16,6 +17,7 @@ interface ApiData {
 function App() {
   const [data, setData] = useState<ApiData>();
   const [guess, setGuess] = useState<string>('');
+  const [correctGuesses, setCorrectGuesses] = useState<string[]>([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -43,11 +45,20 @@ function App() {
   };
 
   const checkGuess = () => {
-    if (data?.answers.includes(guess)) {
+    if (correctGuesses.includes(guess)) {
+      console.log('Already found');
+    } else if (data?.answers.includes(guess)) {
+      addCorrectGuess();
       console.log('Good job!');
     } else {
       console.log('Nope');
     }
+
+    setGuess('');
+  };
+
+  const addCorrectGuess = () => {
+    setCorrectGuesses([...correctGuesses, guess]);
   };
 
   return (
@@ -55,6 +66,7 @@ function App() {
       {data ? (
         <>
           <Header date={data.displayDate} editor={data.editor} />
+          <CorrectGuesses correctGuesses={correctGuesses} />
           <section className="container">
             <div className="inputs">
               <div className="center">

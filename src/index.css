@@ -30,6 +30,15 @@ body {
   margin: 25px auto;
 }
 
+.correctGuesses {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 16px auto 8px auto;
+  border: solid 1px #ccc;
+  padding: 4px 16px;
+}
+
 .guess {
   display: flex;
   justify-content: center;
@@ -54,6 +63,9 @@ body {
   left: 30%;
   width: 40%;
   height: 33.3333333333%;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 
 .cell:nth-child(1) {
