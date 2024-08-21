@@ -15,6 +15,8 @@ interface ApiData {
   validLetters: string[];
 }
 
+const GUESS_MIN_LENGTH = 4;
+
 function App() {
   const [data, setData] = useState<ApiData>();
   const [guess, setGuess] = useState<string>('');
@@ -46,13 +48,28 @@ function App() {
   };
 
   const checkGuess = () => {
-    if (correctGuesses.includes(guess)) {
-      console.log('Already found');
-    } else if (data?.answers.includes(guess)) {
+    if (!guess || !data) return;
+
+    const guessWasAlreadyFound = correctGuesses.includes(guess);
+    const guessHasValidLength = guess.length >= GUESS_MIN_LENGTH;
+    const guessHasCenterLetter = guess.includes(data.centerLetter);
+    const guessIsValidAnswer = data.answers.includes(guess);
+    const isCorrectGuess =
+      guessHasValidLength && guessHasCenterLetter && guessIsValidAnswer;
+
+    if (guessWasAlreadyFound) {
+      alert('Already found!');
+    } else if (isCorrectGuess) {
       addCorrectGuess();
-      console.log('Good job!');
+      alert('Good job!');
     } else {
-      console.log('Nope');
+      if (!guessHasValidLength) {
+        alert('Your guess must have at least 4 letters.');
+      } else if (!guessHasCenterLetter) {
+        alert('Your guess must contain the center letter.');
+      } else if (!guessIsValidAnswer) {
+        alert('Nope!');
+      }
     }
 
     setGuess('');
@@ -67,7 +84,10 @@ function App() {
       {data ? (
         <>
           <Header date={data.displayDate} editor={data.editor} />
-          <Score correctGuesses={correctGuesses} />
+          <Score
+            correctGuesses={correctGuesses}
+            validLetters={data.validLetters}
+          />
           <CorrectGuesses correctGuesses={correctGuesses} />
           <section className="container">
             <div className="inputs">
@@ -76,7 +96,6 @@ function App() {
                 <Honeycomb
                   centerLetter={data.centerLetter}
                   outerLetters={data.outerLetters}
-                  validLetters={data.validLetters}
                   addLetter={addLetter}
                   removeLetter={removeLetter}
                   checkGuess={checkGuess}

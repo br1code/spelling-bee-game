@@ -4,7 +4,6 @@ import Letter from './Letter';
 interface HoneycombProps {
   centerLetter: string;
   outerLetters: string[];
-  validLetters: string[];
   addLetter: (letter: string) => void;
   removeLetter: () => void;
   checkGuess: () => void;
@@ -13,7 +12,6 @@ interface HoneycombProps {
 const Honeycomb: FC<HoneycombProps> = ({
   centerLetter,
   outerLetters,
-  validLetters,
   addLetter,
   removeLetter,
   checkGuess,
