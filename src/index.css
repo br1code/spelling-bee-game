@@ -56,6 +56,14 @@ body {
   font-size: 2rem;
 }
 
+.guess-outer {
+  color: #444;
+}
+
+.guess-center {
+  color: #f7da21;
+}
+
 .honeycomb {
   position: relative;
   height: 275px;
